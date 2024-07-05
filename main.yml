@@ -40,3 +40,10 @@
         extensions:
           - yml
       when: ansible_os_family == "Darwin"
+    # fedora linux
+    - name: "group_vars | fedora"
+      include_vars:
+        dir: group_vars/fedora
+        extensions:
+          - yml
+      when: ansible_os_family == "RedHat"
