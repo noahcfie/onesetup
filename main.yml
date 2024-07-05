@@ -53,3 +53,4 @@
   # order of the roles is crucial, as some roles depend on the successful execution of preceding roles
   roles:
     - { role: apps, tags: ["apps"] }
+    - { role: fonts, tags: ["fonts"] }
