@@ -22,7 +22,7 @@
       include_tasks: pre_tasks/common/tbd.yml
     # osx
     - name: "pre_tasks | osx - prerequisites"
-      include_tasks: pre_tasks/osx/main.yml
+      include_tasks: pre_tasks/osx/prerequisites.yml
       when: ansible_os_family == "Darwin"
     - name: "pre_tasks | osx - tbd"
       include_tasks: pre_tasks/osx/tbd.yml
