@@ -57,6 +57,7 @@
     - { role: git, tags: ["git"] }
     - { role: ssh, tags: ["ssh"] }
     - { role: alacritty, tags: ["alacritty"] }
+    - { role: nvim, tags: ["nvim"] }
     - { role: starship, tags: ["starship"] }
     - { role: fonts, tags: ["fonts"] }
     - { role: browser, tags: ["browser"] }
