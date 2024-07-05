@@ -20,7 +20,6 @@
     upgrade_all: false # should be disabled(!) upgrades of all brew packages are handled by a post_task (formulaes, casks & taps) 
     install_options:
       - quiet # reduce output
-      - force-bottle # always install packages from a precompiled bottle instead of building it from source
   loop: "{{ brew_formulaes }}"
   ignore_errors: true # failed tasks should not exit the playbook (to ensure that one broken package doesnt break everything)
   register: log_formulae # register output for debugging
