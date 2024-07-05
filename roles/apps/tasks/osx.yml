@@ -1,0 +1,67 @@
+---
+# -- TAPS -- #
+- name: "tap repositories"
+  community.general.homebrew_tap:
+    name: "{{ item }}"
+    path: "/usr/local/bin:/opt/homebrew/bin"
+    state: present
+  loop: "{{ brew_taps }}"
+  ignore_errors: true # failed tasks should not exit the playbook (to ensure that one broken package doesnt break everything)
+  register: log_tap # register output for debugging
+
+# -- FORMULAES -- #
+- name: "install formulaes"
+  community.general.homebrew:
+    name: "{{ item }}"
+    path: "/usr/local/bin:/opt/homebrew/bin"
+    state: latest
+    force_formula: true # avoids conflicts where a package has both cask and formulae
+    update_homebrew: false # should be disabled(!) updates of the homebrew package manager itself are handled by a pre_task
+    upgrade_all: false # should be disabled(!) upgrades of all brew packages are handled by a post_task (formulaes, casks & taps) 
+    install_options:
+      - quiet # reduce output
+      - force-bottle # always install packages from a precompiled bottle instead of building it from source
+  loop: "{{ brew_formulaes }}"
+  ignore_errors: true # failed tasks should not exit the playbook (to ensure that one broken package doesnt break everything)
+  register: log_formulae # register output for debugging
+
+# -- CASKS -- #
+- name: "install casks"
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    path: "/usr/local/bin:/opt/homebrew/bin"
+    state: latest
+    accept_external_apps: true
+    greedy: true
+    install_options:
+      - no-quarantine # disable the macos quarantine option as it sometimes marks apps as damaged that are perfectly fine.
+      - quiet # reduce output
+    sudo_password: "{{ ansible_become_password }}"
+    update_homebrew: false # should be disabled(!) updates of the homebrew package manager itself are handled by a pre_task
+    upgrade_all: false # should be disabled(!) upgrades of all brew packages are handled by a post_task (formulaes, casks & taps)
+  loop: "{{ brew_casks }}"
+  ignore_errors: true # failed tasks should not exit the playbook (to ensure that one broken package doesnt break everything)
+  register: log_cask # register output for debugging
+
+
+# -- DEBUGGING -- #
+# output failed taps
+- name: "debugging: brew tap logs"
+  debug:
+    msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
+  when: item.failed
+  loop: "{{ log_tap.results }}"
+
+# output failed formulaes
+- name: "debugging: brew formula installation logs"
+  debug:
+    msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
+  when: item.failed
+  loop: "{{ log_formulae.results }}"
+
+# output failed casks
+- name: "debugging: brew cask installation logs"
+  debug:
+    msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
+  when: item.failed
+  loop: "{{ log_cask.results }}"
