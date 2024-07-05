@@ -59,3 +59,4 @@
     - { role: fonts, tags: ["fonts"] }
     - { role: browser, tags: ["browser"] }
     - { role: twm, tags: ["twm"] }
+    - { role: keymaps, tags: ["keymaps"] }
