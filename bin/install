@@ -116,7 +116,8 @@ function pre_install() {
 # fork onesetup repository to create an individual environment per user
 function fork() {
   # prompt for github username
-  read -p "${I_ASK}Enter your GitHub username: " GH_FORK_USER
+  # read -p "${I_ASK}Enter your GitHub username: " GH_FORK_USER
+  read -p "$(echo -e ${I_ASK}Enter your GitHub username: )" GH_FORK_USER
   GH_FORK_REPO="$GH_FORK_USER/onesetup"
 
   # authenticate github cli
