@@ -32,3 +32,11 @@
     - name: "pre_tasks | fedora - tbd"
       include_tasks: pre_tasks/fedora/tbd.yml
       when: ansible_os_family == "RedHat"
+    # -- INCLUDE GROUP_VARS -- #
+    # osx
+    - name: "group_vars | osx"
+      include_vars:
+        dir: group_vars/osx
+        extensions:
+          - yml
+      when: ansible_os_family == "Darwin"
