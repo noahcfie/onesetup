@@ -27,7 +27,7 @@ I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}" # ask user for input
 I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}" # ask user for yes/no
 # directories, files
 ONESETUP="/opt/onesetup"
-ONESETUP_BAK="/opt/onesetup.BAK"
+ONESETUP_BAK="/opt/.onesetup.BAK"
 ONEVAULT="/opt/onevault"
 ONETEMP="/tmp/onetemp"
 ONESETUP_SECRET_FILE="$ONEVAULT/onesetup.secret"
