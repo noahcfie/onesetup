@@ -56,3 +56,4 @@
     - { role: ssh, tags: ["ssh"] }
     - { role: starship, tags: ["starship"] }
     - { role: fonts, tags: ["fonts"] }
+    - { role: twm, tags: ["twm"] }
