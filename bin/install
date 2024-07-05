@@ -116,8 +116,27 @@ function pre_install() {
     sudo mkdir "$ONETEMP" && echo -e "${I_OK}$ONETEMP ==> directory created"
   fi
   # ensure vault password file exists
-  if [[ -f "$ONESETUP_SECRET_FILE" ]]; then
+  if [[ -f "$ONEVAULT/onesetup.secret" ]]; then
     echo -e "${I_OK}onesetup.secret file exists." && echo -e "${I_IMP}make sure it contains the correct ansible vault password or onesetup will fail."
+  else
+    sudo touch "$ONEVAULT/onesetup.secret"
+    echo -e "${I_DONE}$ONEVAULT/onesetup.secret ==> file created"
+    # prompt user for vault password 
+    echo -e "${I_ASK}Enter your ansible vault password: "
+    read -s vault_password
+    echo -e "${I_ASK}Confirm password: "
+    read -s vault_password_confirm
+    if [ "$vault_password" != "$vault_password_confirm" ]; then
+      echo -e "${I_ERR}passwords dont match. please try again."
+    else
+      break
+    fi
+    # write vault password into secret file
+    echo "$vault_password" | sudo tee "$ONEVAULT/onesetup.secret" > /dev/null
+    sudo chown "$USER" "$ONEVAULT/onesetup.secret"
+    sudo chmod 600 "$ONEVAULT/onesetup.secret"
+    echo -e "${I_DONE}vault password stored in $ONEVAULT/onesetup.secret"
+    echo -e "${I_IMP}!!do not share this file!!"
   fi
   # backup & cleanup onesetup installation
   if [ -d "$ONESETUP" ]; then
