@@ -143,7 +143,7 @@ function pre_install() {
     if [ -d "$ONESETUP_BAK" ]; then
       sudo rm -rf "$ONESETUP_BAK"
     fi
-    sudo cp -r "$ONESETUP" "$ONESETUP_BAK" && sudo rm -rf "$ONESETUP" && echo -e "${I_DONE}backed up existing installation. ==> $ONESETUP_BAK"
+    sudo cp -r "$ONESETUP" "$ONESETUP_BAK" && sudo rm -rf "$ONESETUP" && echo -e "${I_DONE}$ONESETUP_BAK ==> backup existing installation"
   fi
 }
 
