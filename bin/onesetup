@@ -17,9 +17,8 @@ I_GO="${C_BLACK}[${C_CYAN}  GO  ${C_BLACK}] ${C_RESET}" # starting
 I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}" # ask user for input
 I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}" # ask user for yes/no
 # directories
-export ONE="/opt/one"
-export ONESETUP="${ONE}/onesetup"
-export ONEVAULT="${ONE}/onevault"
+export ONESETUP="/opt/onesetup"
+export ONEVAULT="/opt/onevault"
 # ansible environment variables
 export ANSIBLE_INVENTORY="${ONESETUP}/inventory.ini"
 export ANSIBLE_CONFIG="${ONESETUP}/ansible.cfg"
