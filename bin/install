@@ -200,7 +200,7 @@ function check_installation() {
   if [[ -f "$VAULT_SECRET_FILE" ]]; then
     VAULT_SECRET=$(<"$VAULT_SECRET_FILE") && echo -e "${I_INFO}existing onesetup file found. Now checking if it contains a valid password (more than 8 characters)..."
     # validate vault secret is at least 8 characters long
-    if [[ ${#SECRET_CONTENT} -ge 8 ]]; then
+    if [[ ${#VAULT_SECRET} -ge 8 ]]; then
       echo -e "${I_OK}vault secret file exists and contains a valid password."
     else
       sudo rm -f "$VAULT_SECRET_FILE" && echo -e "${I_DONE}secret file" && echo -e "${I_DONE}vault secret file did not contain a valid password. You'll be prompted for the password"
