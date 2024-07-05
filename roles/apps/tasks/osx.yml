@@ -50,18 +50,18 @@
   debug:
     msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
   when: item.failed
-  loop: "{{ log_tap.results }}"
+  loop: "{{ log_tap }}"
 
 # output failed formulaes
 - name: "debugging: brew formula installation logs"
   debug:
     msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
   when: item.failed
-  loop: "{{ log_formulae.results }}"
+  loop: "{{ log_formulae }}"
 
 # output failed casks
 - name: "debugging: brew cask installation logs"
   debug:
     msg: "failed to install {{ item.item }} with message: {{ item.msg }}"
   when: item.failed
-  loop: "{{ log_cask.results }}"
+  loop: "{{ log_cask }}"
