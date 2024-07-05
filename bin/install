@@ -28,6 +28,7 @@ I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}" # ask user for yes/no
 # directories / files
 ONESETUP="/opt/onesetup"
 ONEVAULT="/opt/onevault"
+ONETEMP="/tmp/onetemp"
 VAULT_SECRET_FILE="$ONEVAULT/onesetup.secret"
 
 # github origin
@@ -53,7 +54,9 @@ function pre_install() {
   export HOMEBREW_SUDO_THROUGH_SUDO_USER # use sudo user context (instead of root) for installing homebrew
   export NONINTERACTIVE=1
   export HOMEBREW_NO_ANALYTICS
-  export HOMEBREW_LOGS="${ONE}/logs/onesetup_homebrew.log"
+  export HOMEBREW_LOGS="/tmp/onesetup/logs/homebrew.log"
+  [ ! -d "$ONETEMP" ] && sudo mkdir "/tmp/onesetup"
+  [ ! -d "$ONETEMP/logs" ] && sudo mkdir "$ONETEMP/logs"
   # customization environment variables
 
   # ensure xcode cli tools are installed
