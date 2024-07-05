@@ -131,7 +131,7 @@ function install() {
   echo -e "${I_GO}installing ==> onesetup" && sleep 1
   echo -e "${I_GO}installing ==> onesetup" && sleep 1
   # clone repository from github
-  sudo git clone --quiet "https://github.com/$GH_USER/$GH_REPO" "$ONESETUP" && echo -e "${I_DONE} onesetup ==> repository cloned" || { echo -e "${I_ERR}onesetup ==> failed to clone repository" && exit 1; }
+  sudo git clone --quiet "https://github.com/$GH_USER/$GH_REPO.git" "$ONESETUP" && echo -e "${I_DONE} onesetup ==> repository cloned" || { echo -e "${I_ERR}onesetup ==> failed to clone repository" && exit 1; }
 
   # -- PERMISSIONS & OWNERSHIP -- #
   # set ownership
