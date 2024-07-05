@@ -51,9 +51,9 @@ sudo -v # ask for sudo password up-front
 function pre_install() {
   # -- environment variables -- #
   # homebrew environment variables
-  export HOMEBREW_SUDO_THROUGH_SUDO_USER # use sudo user context (instead of root) for installing homebrew
+  export HOMEBREW_SUDO_THROUGH_SUDO_USER=1 # use sudo user context (instead of root) for installing homebrew
   export NONINTERACTIVE=1
-  export HOMEBREW_NO_ANALYTICS
+  export HOMEBREW_NO_ANALYTICS=1
   export HOMEBREW_LOGS="/tmp/onesetup/logs/homebrew.log"
   [ ! -d "$ONETEMP" ] && sudo mkdir "/tmp/onesetup"
   [ ! -d "$ONETEMP/logs" ] && sudo mkdir "$ONETEMP/logs"
