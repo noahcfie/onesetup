@@ -1,0 +1,12 @@
+---
+- name: "ensure bash (brew version) is installed"
+  homebrew:
+    name: bash
+    state: latest
+  become: false
+
+- name: "ensure openssh (brew version) is installed"
+  homebrew:
+    name: openssh
+    state: latest
+  become: false

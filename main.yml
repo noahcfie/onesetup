@@ -11,3 +11,24 @@
     H_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}"
     H_XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME') | default(lookup('ansible.builtin.env', 'HOME') + '/.config/') }}"
     H_ZDOTDIR: "{{ lookup('ansible.builtin.env', 'ZDOTDIR') | default(lookup('ansible.builtin.env', 'HOME') + '/.config/zsh') }}"
+  pre_tasks:
+    # -- INCLUDE PRE_TASKS -- #
+    # common
+    - name: "pre_tasks | common - prerequisites"
+      include_tasks: pre_tasks/common/prerequisites.yml
+    - name: "pre_tasks | common - tbd"
+      include_tasks: pre_tasks/common/tbd.yml
+    # osx
+    - name: "pre_tasks | osx - prerequisites"
+      include_tasks: pre_tasks/osx/main.yml
+      when: ansible_os_family == "Darwin"
+    - name: "pre_tasks | osx - tbd"
+      include_tasks: pre_tasks/osx/tbd.yml
+      when: ansible_os_family == "Darwin"
+    # fedora
+    - name: "pre_tasks | fedora - prerequisites"
+      include_tasks: pre_tasks/fedora/prerequisites.yml
+      when: ansible_os_family == "RedHat"
+    - name: "pre_tasks | fedora - tbd"
+      include_tasks: pre_tasks/fedora/tbd.yml
+      when: ansible_os_family == "RedHat"
