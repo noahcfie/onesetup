@@ -27,6 +27,7 @@ I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}" # ask user for input
 I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}" # ask user for yes/no
 # directories, files
 ONESETUP="/opt/onesetup"
+ONESETUP_BAK="/opt/onesetup.BAK"
 ONEVAULT="/opt/onevault"
 ONETEMP="/tmp/onetemp"
 ONESETUP_SECRET_FILE="$ONEVAULT/onesetup.secret"
@@ -63,7 +64,7 @@ function dependencies() {
   export HOMEBREW_SUDO_THROUGH_SUDO_USER=1 # use sudo user context (instead of root) for installing homebrew
   export NONINTERACTIVE=1
   export HOMEBREW_NO_ANALYTICS=1
-  export HOMEBREW_LOGS="/tmp/onesetup/logs/homebrew.log"
+  export HOMEBREW_LOGS="$ONETEMP/onesetup_homebrew.log"
   # ensure homebrew is installed
   [ -d "/opt/homebrew" ] && echo -e "${I_OK}homebrew ==> already installed" || { echo -e "${I_ERR}homebrew ==> not installed"
        HOMEBREW_NO_ENV_HINTS=1 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && echo -e "${I_DONE}installed ==> homebrew"; }
@@ -96,37 +97,31 @@ function dependencies() {
 
 # -- PREPARE INSTALLATION -- #
 function pre_install() {
-  # -- ENSURE REQUIRED ENVIRONMENT VARIABLES -- #
-  if [ -n "$HOME" ]; then
-    echo -e "${I_ERR}HOME environment variable is not set." && exit 1
-  fi
-  if [ -n "$USER" ]; then
-    echo -e "${I_ERR}USER environment variable is not set." && exit 1
-  fi
-
   # -- ENSURE REQUIRED FILES & DIRECTORIES -- #
   # ensure ~/.config directory exists
-  [ ! -d "${HOME}/.config" ] && sudo mkdir "${HOME}/.config" && echo -e "${I_DONE} ~/.config ==> directory created"
+  if [ ! -d "${HOME}/.config" ]; then
+    sudo mkdir "${HOME}/.config" && echo -e "${I_OK} ~/.config ==> directory created"
+  fi
+
   # ensure ~/.ssh directory exists
-  [ ! -d "${HOME}/.ssh" ] && sudo mkdir "${HOME}/.ssh" && echo -e "${I_DONE} ~/.ssh ==> directory created"
+  if [ ! -d "${HOME}/.ssh" ]; then
+    sudo mkdir "${HOME}/.ssh" && echo -e "${I_OK} ~/.ssh ==> directory created"
+  fi
   # ensure onevault directory exists
-  [ ! -d "$ONEVAULT" ] && sudo mkdir "$ONEVAULT" && echo -e "${I_DONE} /opt/onevault ==> directory created"
+  if [ ! -d "$ONEVAULT" ]; then
+    sudo mkdir "$ONEVAULT" && echo -e "${I_OK}$ONEVAULT ==> directory created"
+  fi
   # ensure onetemp directory exists
-  [ ! -d "$ONETEMP" ] && sudo mkdir "$ONETEMP"
-  # ensure onetemp logs directory exists
-  [ ! -d "$ONETEMP/logs" ] && sudo mkdir "$ONETEMP/logs"
+  if [ ! -d "$ONETEMP" ]; then
+    sudo mkdir "$ONETEMP" && echo -e "${I_OK}$ONETEMP ==> directory created"
+  fi
   # ensure vault password file exists
   if [[ -f "$ONESETUP_SECRET_FILE" ]]; then
-    ONESETUP_SECRET=$(<"$ONESETUP_SECRET_FILE") && echo -e "${I_OK}onesetup.secret file exists." && echo -e "${I_IMP}make sure it contains the correct ansible vault password or onesetup will fail."
+    echo -e "${I_OK}onesetup.secret file exists." && echo -e "${I_IMP}make sure it contains the correct ansible vault password or onesetup will fail."
   fi
-  # check if onesetup installation exists and is a git repository
-  [ -d "${ONESETUP}/.git" ] && echo -e "${I_YN}existing onesetup installation found. overwrite it? (y/n)" && read -r overwrite_onesetup
-  # remove onesetup directory if user wants to overwrite
-  if [ "$overwrite_onesetup" == "y" || "$overwrite_onesetup" == "Y" ]; then
-    sudo rm -rf "$ONESETUP" && echo -e "${I_DONE}cleanup of existing onesetup installation"
-  else
-    echo -e "${I_EX}aborting..."
-    sleep 1 && exit 1
+  # backup & cleanup onesetup installation
+  if [ -d "$ONESETUP" ]; then
+    sudo cp -r "$ONESETUP" "$ONESETUP_BAK" && sudo rm -rf "$ONESETUP" && echo -e "${I_DONE}backed up existing installation. ==> $ONESETUP_BAK"
   fi
 }
 
@@ -170,7 +165,4 @@ function install() {
 }
 
 
-dependencies \
-&& pre_install \
-&& install \
-&& exit 0 # exit script with success code
+dependencies && pre_install && install
