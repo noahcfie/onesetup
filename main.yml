@@ -54,4 +54,5 @@
   roles:
     - { role: apps, tags: ["apps"] }
     - { role: ssh, tags: ["ssh"] }
+    - { role: starship, tags: ["starship"] }
     - { role: fonts, tags: ["fonts"] }
