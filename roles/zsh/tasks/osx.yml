@@ -109,7 +109,7 @@
 - name: "permissions - zsh user config"
   ansible.builtin.file:
     path: "{{ H_XDG_CONFIG_HOME }}/zsh"
-    follow: true
+    state: directory
     mode: 0744
     owner: "{{ H_USER }}"
     recurse: true
