@@ -55,6 +55,7 @@
     - { role: apps, tags: ["apps"] }
     - { role: git, tags: ["git"] }
     - { role: ssh, tags: ["ssh"] }
+    - { role: alacritty, tags: ["alacritty"] }
     - { role: starship, tags: ["starship"] }
     - { role: fonts, tags: ["fonts"] }
     - { role: browser, tags: ["browser"] }
