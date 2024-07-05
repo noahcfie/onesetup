@@ -6,8 +6,6 @@
 [push]
   default = simple
   autoSetupRemote = true
-[credential]
-  helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
   useHttpPath = true
 [git]
@@ -24,3 +22,10 @@
 	pager = no # disable pager colors to use nvim colors
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[credential]
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
