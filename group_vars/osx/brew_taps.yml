@@ -1,6 +1,7 @@
 ---
 brew_taps:
-  - azure/functions
+  - azure/functions # azure functions core tools
+  - powershell/tap # powershell
   - FelixKratz/formulae
-  - koekeishiya/formulae
-  - hashicorp/tap
+  - koekeishiya/formulae # yabai & skhd
+  - hashicorp/tap # terraform
