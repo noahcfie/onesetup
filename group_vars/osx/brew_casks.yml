@@ -22,15 +22,20 @@ brew_casks:
   - proton-mail
   - protonvpn
   - raycast # spotlight replacement
-  - spaceman # menubar spaces info
   - spotify
   - utm # virtual machine manager
+  - visual-studio-code
   - zed # IDE similar to vscode
   - sublime-text # light weight text editor
   - league-of-legends
   - wireshark
   - canva
   - figma
-  - arc # chromium based browser
+  - getoutline # knowledge management
   - balenaetcher # os image writer
+  - Obsidian # knowledge management
   - fedora-media-writer # prepare bootable usb drives for fedora linux
+  - keka # compression tool
+  - kekaexternalhelper # helper utility for keka compression tool
+  - whatsapp # whatsapp desktop client
+  - slack # collaboration tool
