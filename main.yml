@@ -11,6 +11,8 @@
     H_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}"
     H_XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME') | default(lookup('ansible.builtin.env', 'HOME') + '/.config/') }}"
     H_ZDOTDIR: "{{ lookup('ansible.builtin.env', 'ZDOTDIR') | default(lookup('ansible.builtin.env', 'HOME') + '/.config/zsh') }}"
+  vars_files:
+    - group_vars/encrypted/ssh.yml
   pre_tasks:
     # -- INCLUDE PRE_TASKS -- #
     # common
