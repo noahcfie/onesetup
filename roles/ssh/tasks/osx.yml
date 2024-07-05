@@ -6,6 +6,7 @@
     state: "directory"
     mode: "0700"
     owner: "{{ H_USER }}"
+  become: true
 # public keys
 - name: "decrypt & place public keys"
   copy:
