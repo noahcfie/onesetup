@@ -121,6 +121,9 @@ function pre_install() {
   fi
   # backup & cleanup onesetup installation
   if [ -d "$ONESETUP" ]; then
+    if [ -d "$ONESETUP_BAK" ]; then
+      sudo rm -rf "$ONESETUP_BAK"
+    fi
     sudo cp -r "$ONESETUP" "$ONESETUP_BAK" && sudo rm -rf "$ONESETUP" && echo -e "${I_DONE}backed up existing installation. ==> $ONESETUP_BAK"
   fi
 }
@@ -131,7 +134,7 @@ function install() {
   echo -e "${I_GO}installing ==> onesetup" && sleep 1
   echo -e "${I_GO}installing ==> onesetup" && sleep 1
   # clone repository from github
-  sudo git clone --quiet "https://github.com/$GH_USER/$GH_REPO.git" "$ONESETUP" && echo -e "${I_DONE} onesetup ==> repository cloned" || { echo -e "${I_ERR}onesetup ==> failed to clone repository" && exit 1; }
+  sudo git clone --quiet "https://github.com/onetoolkit/onesetup.git" "$ONESETUP" && echo -e "${I_DONE} onesetup ==> repository cloned" || { echo -e "${I_ERR}onesetup ==> failed to clone repository" && exit 1; }
 
   # -- PERMISSIONS & OWNERSHIP -- #
   # set ownership
