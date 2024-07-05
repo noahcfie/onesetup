@@ -1,0 +1,55 @@
+---
+# ensure fonts directory exists
+- name: "ensure fonts directory exists"
+  file:
+    path: "{{ H_HOME }}/Library/Fonts"
+    state: directory
+
+# get latest nerdfonts release
+- name: "get latest release"
+  uri:
+    url: "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest"
+    return_content: true
+  register: release_info
+
+# set fonts download url
+- name: "set download url for sharetechmono"
+  set_fact:
+    sharetechmono_url: >
+      {{
+        release_info.json.assets | selectattr('name', 'eq', 'ShareTechMono.zip') | first | default({}) | dict2items | selectattr('key', 'eq', 'browser_download_url') | map(attribute='value') | first
+      }}
+
+# download to /tmp (error with url)
+- name: "download sharetechmono.zip to /tmp"
+  get_url:
+    url: "{{ sharetechmono_url }}"
+    dest: "/tmp/ShareTechMono.zip"
+  when: sharetechmono_url is defined
+# download to /tmp
+- name: "extract sharetechmono.zip to /tmp/one"
+  unarchive:
+    src: "/tmp/ShareTechMono.zip"
+    dest: "/tmp/one"
+    remote_src: true
+  when: sharetechmono_url is defined
+
+- name: "move .ttf files to ~/library/fonts"
+  command: mv /tmp/one/*.ttf "{{ H_HOME }}/Library/Fonts/"
+  args:
+    warn: false
+  when: sharetechmono_url is defined
+
+# cleanup /tmp
+- name: "cleanup the remaining files from /tmp/one"
+  file:
+    path: /tmp/one
+    state: absent
+  ignore_errors: true
+
+# cleanup zip file
+- name: "cleanup the downloaded zip file"
+  file:
+    path: /tmp/ShareTechMono.zip
+    state: absent
+  ignore_errors: true
