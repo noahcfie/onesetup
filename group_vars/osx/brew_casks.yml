@@ -40,3 +40,4 @@ brew_casks:
   - whatsapp # whatsapp desktop client
   - slack # collaboration tool
   - docker # docker desktop
+  - karabiner-elements # keyboard remapping tool
