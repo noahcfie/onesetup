@@ -20,8 +20,8 @@
   colorMoved = default
 [color]
 	pager = no # disable pager colors to use nvim colors
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
 [credential]
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [filter "lfs"]
