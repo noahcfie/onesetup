@@ -30,8 +30,12 @@ esac
 # zsh-autocomplete
 source "$(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 
+
+# -- STARSHIP -- # 
+eval "$(starship init zsh)"
+
 # -- FZF -- # 
-eval "$(fzf --zsh)"
+source <(fzf --zsh)
 
 # -- ZOXIDE -- #
 eval "$(zoxide init --cmd cd --hook pwd zsh)"

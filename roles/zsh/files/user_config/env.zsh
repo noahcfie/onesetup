@@ -32,7 +32,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/llvm/include:$CPPFLAGS" # llvm / clang
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 
 # STARSHIP
-export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/starship.toml"
 
 # NODE / PNPM / YARN_PNP
 export PNPM_HOME="$XDG_CONFIG_HOME/pnpm"
@@ -44,6 +44,3 @@ export PYENV_VERSION="3.12.4"
 # GPG / GNUPG
 export GNUPGHOME="$CRIT_DIR/gnupg" # gnupg config directory
 export GPG_TTY=$(tty) # fixes inappropriate ioctl for device error
-
-# DOCKER / PODMAN
-export DOCKER_HOST='unix:///var/folders/t8/nh9c_yvx5qjb_4xrv8gzlthc0000gn/T/podman/podman-machine-default-api.sock'
