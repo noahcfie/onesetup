@@ -1,99 +1,96 @@
-# Colors
-# RED = "#F38BA8"
-# Mauve: #CBA6F7
-# Lavender: #B4BEFE
-# Teal: #94E2D5
-# Base: #1E1E2E (text color)
-# Yellow: #F9E2AF
-
-#-- OPTIONS --#
-"$schema" = 'https://starship.rs/config-schema.json'
-add_newline = true
-# 
-#-- PROMPT --#
-format = """
-[](#F38BA8)\
-$username\
-[](bg:#CBA6F7 fg:#F38BA8)\
-$directory\
-[](bg:#B4BEFE fg:#CBA6F7)\
-$git_branch\
-$git_status\
-[](bg:#94E2D5 fg:#B4BEFE)\
-$python\
-$lua\
-$rust\
-$c\
-$java\
-$nodejs\
-$terraform\
-[](#94E2D5)\
-
-\n$character
-"""
-
-#-- SECTIONS --#
-
+# -- STYLE -- #
 [character]
-success_symbol = '[ 󱞩](bold #cba6f7)' # teal
-error_symbol = '[ 󱞩](bold #F38BA8)'   # red
+success_symbol = " [╰─](#cba6f7)"
+error_symbol = " [╰─](#cba6f7)"
 
+# -- SYSTEM INFO -- #
 [username]
-# bg: Red | fg: Base
+format = " [╭─$user]($style)@"
+style_user = "#cba6f7" # mauve
+style_root = "#cba6f7" # mauve
 show_always = true
-style_user = "bg:#F38BA8 fg:#1E1E2E"
-style_root = "bg:#F38BA8 fg:#1E1E2E"
-format = '[$user ]($style)'
+
+[hostname]
+format = "[$hostname]($style) in "
+style = "#cba6f7" # mauve
+trim_at = "-"
+ssh_only = false
 disabled = false
 
 [directory]
-# bg: Mauve | fg: Base
-style = "bg:#CBA6F7 fg:#1E1E2E"
-format = "[ $path ]($style)"
-truncation_length = 1
-truncation_symbol = "…/"
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
+style = "#89b4fa" # blue
+truncation_length = 0
+truncate_to_repo = true
+truncation_symbol = "repo: "
 
+[cmd_duration]
+disabled = true
+
+# -- GIT -- #
 [git_branch]
-# bg: Lavender | fg: Base
-symbol = ""
-style = "bg:#B4BEfE fg:#1E1E2E"
-format = '[ $symbol $branch ]($style)'
+style = "#eba0ac" # maroon
+symbol = " "
+format = "on [$symbol$branch(:$remote_branch)]($style) "
+
 [git_status]
-style = "bg:#B4BEfE fg:#1E1E2E"
-format = '[$all_status$ahead_behind ]($style)'
+style = "#eba0ac" # maroon
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+deleted = "x"
+
+# -- DOCKER -- #
+[docker_context]
+symbol = " "
+format = "via [$symbol$context]($style) "
+style = "#a6e3a1" # green
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_folders = []
+disabled = false
+
+# -- TECHNOLOGY INFO -- #
+[aws]
+style = "#cba6f7" # mauve
+symbol = "  "
+
+[lua]
+symbol = " "
+style = "#cba6f7" # mauve
+format = "via [$symbol($version )]($style)"
+
+[golang]
+style = "#cba6f7" # mauve
+symbol = " "
+
+[java]
+style = "#cba6f7" # mauve
+symbol = " "
 
 [python]
-format = '[${symbol} ($version)(\($virtualenv\) )]($style)'
-symbol = " "
-style = "bg:#94E2D5 fg:#1E1E2E"
-version_format = "${major}.${minor} "
-pyenv_prefix = "pyenv"
-python_binary = "python"
-[lua]
-format = '[ $symbol ]($style)'
-symbol = ""
-style = "bg:#94E2D5 fg:#1E1E2E"
+symbol = " "
+#pyenv_version_name = true
+format = 'via [${symbol}python (${version} )(\($virtualenv\) )]($style)'
+style = "#cba6f7" # mauve
+pyenv_prefix = "venv "
+python_binary = ["./venv/bin/python", "python", "python3", "python2"]
+detect_extensions = ["py"]
+version_format = "v${raw}"
+
 [rust]
-format = '[ $symbol ($version) ]($style)'
-symbol = ""
-style = "bg:#94E2D5 fg:#1E1E2E"
-[c]
-format = '[ $symbol ($version) ]($style)'
-symbol = ""
-style = "bg:#94E2D5 fg:#1E1E2E"
-[java]
-format = '[ $symbol ($version) ]($style)'
-symbol = ""
-style = "bg:#94E2D5 fg:#1E1E2E"
+style = "#cba6f7" # mauve
+symbol = " "
+
+[shlvl]
+style = "#cba6f7" # mauve
+symbol = " "
+
+[swift]
+style = "#cba6f7" # mauve
+symbol = "ﯣ "
+
 [nodejs]
-format = '[ $symbol ($version) ]($style)'
-symbol = ""
-style = "bg:#94E2D5 fg:#1E1E2E"
-[terraform]
-symbol = "󱁢"
-style = "bg:#94E2D5 fg:#1E1E2E"
+style = "#cba6f7" # mauve
+format = "via [ Node.js $version](#a6e3a1) " # green
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]

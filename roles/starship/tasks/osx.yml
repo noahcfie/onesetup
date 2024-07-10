@@ -1,18 +1,17 @@
 ---
-- name: "ensure directory"
-  file:
-    path: "{{ ansible_env.HOME }}/.config/starship"
-    state: directory
-    owner: "{{ ansible_env.USER }}"
-    mode: "0755"
+# CLEANUP
+- name: "cleanup starship directory"
+  ansible.builtin.file:
+    state: absent
     force: true
+    path: "{{ H_XDG_CONFIG_HOME }}/starship"
+  become: true
 
-- name: "symlink config"
-  file:
-    src: "{{ role_path }}/files/starship.toml"
-    dest: "{{ ansible_env.HOME }}/.config/starship/starship.toml"
-    owner: "{{ ansible_env.USER }}"
-    mode: "0644"
+# SYMLINK
+- name: "symlink starship directory"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ H_XDG_CONFIG_HOME }}/starship"
     state: link
-    follow: false
     force: true
+  become: true
