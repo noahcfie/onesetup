@@ -39,3 +39,4 @@ brew_casks:
   - kekaexternalhelper # helper utility for keka compression tool
   - whatsapp # whatsapp desktop client
   - slack # collaboration tool
+  - docker # docker desktop

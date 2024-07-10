@@ -92,6 +92,4 @@ brew_formulaes:
   - eza # better ls
   - fd # better find
   - fzf # fuzzy finder
-  - docker # containerize tool (like podman but worse
-  - podman # containerize tool
   - kubectl # kubernetes cli
