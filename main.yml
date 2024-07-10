@@ -56,6 +56,7 @@
     - { role: zsh, tags: ["zsh"] }
     - { role: git, tags: ["git"] }
     - { role: ssh, tags: ["ssh"] }
+    - { role: scripts, tags: ["scripts"] }
     - { role: alacritty, tags: ["alacritty"] }
     - { role: nvim, tags: ["nvim"] }
     - { role: starship, tags: ["starship"] }
