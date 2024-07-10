@@ -12,6 +12,12 @@
     path: "{{ H_XDG_CONFIG_HOME }}/borders"
     state: absent
     force: true
+# cleanup skhd directory
+- name: "cleanup - skhd directory"
+  ansible.builtin.file:
+    path: "{{ H_XDG_CONFIG_HOME }}/skhd"
+    state: absent
+    force: true
 
 # -- SYMLINK -- #
 # symlink yabai directory
@@ -21,6 +27,12 @@
     dest: "{{ H_XDG_CONFIG_HOME }}/yabai"
     state: link
     force: true
+# symlink skhd directory
+- name: "symlink skhd directory"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/skhd"
+    path: "{{ H_XDG_CONFIG_HOME }}/skhd"
+    state: link
 # symlink borders directory
 - name: "symlink - borders directory"
   file:
@@ -28,3 +40,29 @@
     dest: "{{ H_XDG_CONFIG_HOME }}/borders"
     state: link
     force: true
+
+# -- PERMISSIONS -- #
+# permissions yabai directory
+- name: "set permissions - yabai directory"
+  ansible.builtin.file:
+    path: "{{ H_XDG_CONFIG_HOME }}/yabai"
+    owner: "{{ H_USER }}"
+    mode: 0700
+    state: directory
+  become: true
+# permissions skhd directory
+- name: "set permissions - skhd directory"
+  ansible.builtin.file:
+    path: "{{ H_XDG_CONFIG_HOME }}/skhd"
+    owner: "{{ H_USER }}"
+    mode: 0700
+    state: directory
+  become: true
+# permissions borders directory
+- name: "set permissions - borders directory"
+  ansible.builtin.file:
+    path: "{{ H_XDG_CONFIG_HOME }}/borders"
+    owner: "{{ H_USER }}"
+    mode: 0700
+    state: directory
+  become: true

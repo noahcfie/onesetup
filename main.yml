@@ -62,6 +62,5 @@
     - { role: fonts, tags: ["fonts"] }
     - { role: browser, tags: ["browser"] }
     - { role: twm, tags: ["twm"] }
-    - { role: keymaps, tags: ["keymaps"] }
     - { role: settings, tags: ["settings"] }
     - { role: karabiner, tags: ["karabiner"] }
