@@ -1,3 +1,10 @@
+# -- DOCK ITEMS -- #
+- name: "execute dock setup script"
+  ansible.builtin.command:
+    cmd: "./{{ H_XDG_CONFIG_HOME }}/scripts/set_dock_items.sh"
+# -- -- -- -- -- -- -- -- -- -- #
+# --  MACOS SYSTEM SETTINGS  -- #
+# -- -- -- -- -- -- -- -- -- -- #
 - name: "set measurement units to centimeters"
   osx_defaults:
     domain: NSGlobalDomain
