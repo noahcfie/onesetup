@@ -19,18 +19,26 @@ I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}" # user prompt (ask)
 I_INFO="${C_BLACK}[${C_PURPLE}  i  ${C_BLACK}] ${C_RESET}" # information
 G_BORDER="${C_BLACK}󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜󰇜${C_RESET} "
 
+
 # -- SOURCE SHELL CONFIG FILES -- #
-src_zsh_conf(){
-  source "${ZSH_DIR:-$HOME/.config/zsh}/pre.zsh" # need to be sourced first
-  source "${ZSH_DIR:-$HOME/.config/zsh}/var.zsh" # variables
-  source "${ZSH_DIR:-$HOME/.config/zsh}/env.zsh" # environment
-  source "${ZSH_DIR:-$HOME/.config/zsh}/func.zsh" # functions
-  source "${ZSH_DIR:-$HOME/.config/zsh}/al.zsh" # aliases
-  source "${ZSH_DIR:-$HOME/.config/zsh}/opt.zsh" # options
-  source "${ZSH_DIR:-$HOME/.config/zsh}/lib.zsh" # modules
+function src_zsh_conf(){
+  source "${ZSH_DIR:-$HOME/.config/zsh}/variables.zsh" # variables
+  source "${ZSH_DIR:-$HOME/.config/zsh}/env_vars.zsh" # environment
+  source "${ZSH_DIR:-$HOME/.config/zsh}/functions.zsh" # functions
+  source "${ZSH_DIR:-$HOME/.config/zsh}/aliases.zsh" # aliases
+  source "${ZSH_DIR:-$HOME/.config/zsh}/options.zsh" # options
+  source "${ZSH_DIR:-$HOME/.config/zsh}/tools.zsh" # modules
   source "${ZSH_DIR:-$HOME/.config/zsh}/path.zsh" # path
-  source "${ZSH_DIR:-$HOME/.config/zsh}/st.zsh" # status
-  source "${ZSH_DIR:-$HOME/.config/zsh}/ui.zsh" # status
-  source "${ZSH_DIR:-$HOME/.config/zsh}/post.zsh" # need to be sourced last
 }
-src_zsh_conf
+
+# -- BEFORE -- #
+function execute_before() {
+  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+}
+
+# -- AFTER -- #
+function execute_after() {
+}
+
+execute_before && src_zsh_conf && execute_after
+

@@ -26,11 +26,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;; # set pnpm home
 esac
 
-
-# zsh-autocomplete
-source "$(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
-
-
 # -- STARSHIP -- # 
 eval "$(starship init zsh)"
 
