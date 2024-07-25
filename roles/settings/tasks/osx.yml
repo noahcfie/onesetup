@@ -32,6 +32,12 @@
     key: LSQuarantine
     type: bool
     value: false
+- name: "disable dictation prompt"
+  osx_defaults:
+    domain: com.apple.HIToolbox
+    key: AppleDictationAutoEnable
+    type: int
+    value: 0
 
 # -- UPDATES -- #
 # appstore updates
