@@ -7,6 +7,7 @@
     owner: "{{ H_USER }}"
     recurse: true
   no_log: true
+  become: true
 
 - name: "get all nerdfont .ttf files"
   find:
