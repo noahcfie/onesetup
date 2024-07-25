@@ -6,8 +6,6 @@
 [push]
   default = simple
   autoSetupRemote = true
-[credential "https://dev.azure.com"]
-  useHttpPath = true
 [git]
 	autoRefresh = true
 	autoFetch = true
@@ -29,3 +27,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://dev.azure.com"]
+	useHttpPath = true
