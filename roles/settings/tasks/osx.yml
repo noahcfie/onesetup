@@ -337,6 +337,12 @@
     key: AppleFnUsageType
     type: int
     value: 0 # 0: do nothing | 1: change input source | 2: show emojis & symbols | 3: start dication
+- name: "keyboard | drag on gesture"
+  osx_defaults:
+    domain: NSGlobalDomain
+    key: NSWindowShouldDragOnGesture
+    type: string
+    value: "YES"
 - name: "keyboard | function keys behaviour (f1 - f12)"
   osx_defaults:
     domain: NSGlobalDomain
