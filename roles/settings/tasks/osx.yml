@@ -290,7 +290,7 @@
     domain: NSGlobalDomain
     key: com.apple.mouse.scaling
     type: float
-    value: 1.0
+    value: 2
 # -- TERMINAL -- #
 - name: "terminal | focus follows mouse"
   osx_defaults:
