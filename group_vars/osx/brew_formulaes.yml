@@ -2,7 +2,9 @@
 brew_formulaes:
   # -- LANGUAGES -- #
   - typescript
+  - yazi # terminal file manager
   - go
+  - git-crypt # git repository file encryption
   - ruby
   - rust
   - sqlite
@@ -70,6 +72,7 @@ brew_formulaes:
   - cheat # cheatsheet engine
   - fontconfig
   - bat # better cat
+  - ripgrep # better grep
   - fastfetch # system info
   - zellij # terminal multiplexer (tmux alternative)
   - telnet
@@ -77,6 +80,9 @@ brew_formulaes:
   - zoxide # better cd
   - speedtest-cli
   - wireshark
+  - ffmpegthumbnailer # terminal video thumbnailer
+  - unar # unarchiving tool
+  - poppler # pdf rendering library
   - tree
   - wget
   - xclip # clipboard manager
@@ -91,5 +97,7 @@ brew_formulaes:
   - borders # window borders
   - eza # better ls
   - fd # better find
+  - sk # fuzzy finder
   - fzf # fuzzy finder
   - kubectl # kubernetes cli
+  - atuin # shell history tool
