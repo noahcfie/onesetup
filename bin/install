@@ -14,17 +14,17 @@ C_WHITE='\033[1;37m'
 C_GRAY='\033[1;34m'
 C_RESET='\033[0m'
 # prompts
-I_SKIP="${C_BLACK}[${C_CYAN} SKIP ${C_BLACK}] ${C_RESET}" # skipped
-I_OK="${C_BLACK}[${C_GREEN}  OK  ${C_BLACK}] ${C_RESET}" # ok
-I_DONE="${C_BLACK}[${C_GREEN} DONE ${C_BLACK}] ${C_RESET}" # success
-I_IMP="${C_BLACK}[${C_RED}  !!  ${C_BLACK}] ${C_RESET}" # important
-I_ERR="${C_BLACK}[${C_RED} ERR! ${C_BLACK}] ${C_RESET}" # error
-I_EX="${C_BLACK}[${C_RED} EXIT ${C_BLACK}] ${C_RESET}" # script exit
-I_WAR="${C_BLACK}[${C_YELLOW} WARN ${C_BLACK}] ${C_RESET}" # warning
+I_SKIP="${C_BLACK}[${C_CYAN} SKIP ${C_BLACK}] ${C_RESET}"   # skipped
+I_OK="${C_BLACK}[${C_GREEN}  OK  ${C_BLACK}] ${C_RESET}"    # ok
+I_DONE="${C_BLACK}[${C_GREEN} DONE ${C_BLACK}] ${C_RESET}"  # success
+I_IMP="${C_BLACK}[${C_RED}  !!  ${C_BLACK}] ${C_RESET}"     # important
+I_ERR="${C_BLACK}[${C_RED} ERR! ${C_BLACK}] ${C_RESET}"     # error
+I_EX="${C_BLACK}[${C_RED} EXIT ${C_BLACK}] ${C_RESET}"      # script exit
+I_WAR="${C_BLACK}[${C_YELLOW} WARN ${C_BLACK}] ${C_RESET}"  # warning
 I_INFO="${C_BLACK}[${C_PURPLE} INFO ${C_BLACK}] ${C_RESET}" # information
-I_GO="${C_BLACK}[${C_CYAN}  GO  ${C_BLACK}] ${C_RESET}" # starting
-I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}" # ask user for input
-I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}" # ask user for yes/no
+I_GO="${C_BLACK}[${C_CYAN}  GO  ${C_BLACK}] ${C_RESET}"     # starting
+I_ASK="${C_BLACK}[${C_BLUE}  ?  ${C_BLACK}] ${C_RESET}"     # ask user for input
+I_YN="${C_BLACK}[${C_BLUE} y/n ${C_BLACK}] ${C_RESET}"      # ask user for yes/no
 # directories, files
 ONESETUP="/opt/onesetup"
 ONESETUP_BAK="/opt/.onesetup.BAK"
@@ -43,56 +43,63 @@ GH_RAW="https://raw.githubusercontent.com/$GH_USER/$GH_REPO/main"
 echo -e "${I_IMP}This script requires sudo privileges. You will be asked for your password."
 echo -e "${I_IMP}DO NOT TRUST ME! This project is open source & you can review the code to see what it does (https://github.com/fschlegelone/onesetup)"
 sudo -v # ask for sudo password up-front
-( while true; do sudo -v; sleep 60; done ) &
+(while true; do
+  sudo -v
+  sleep 60
+done) &
 
 # ensure dependencies before installation starts
 function dependencies() {
 
   # ensure xcode cli tools are installed
-  if ! xcode-select -p &> /dev/null; then
+  if ! xcode-select -p &>/dev/null; then
     echo -e "${I_GO}xcode-commandline-tools ==> installing"
-    touch "/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress" # create temp file prompting 'softwareupdate' to list xct
+    touch "/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"            # create temp file prompting 'softwareupdate' to list xct
     XCT=$(softwareupdate -l | grep "\*.*Command Line" | tail -n 1 | sed 's/^[^C]* //') # find latest xct version
-    softwareupdate -i "$XCT" --verbose # install xct
+    softwareupdate -i "$XCT" --verbose                                                 # install xct
   else
     echo -e "${I_DONE}xcode-commandline-tools ==> installed"
   fi
 
   # TODO: backup and remove gitconfig - restore after installation finished (not sure if thats necessary)
-  
+
   # set homebrew environment variables
   export HOMEBREW_SUDO_THROUGH_SUDO_USER=1 # use sudo user context (instead of root) for installing homebrew
   export NONINTERACTIVE=1
   export HOMEBREW_NO_ANALYTICS=1
   export HOMEBREW_LOGS="$ONETEMP/onesetup_homebrew.log"
   # ensure homebrew is installed
-  [ -d "/opt/homebrew" ] && echo -e "${I_OK}homebrew ==> already installed" || { echo -e "${I_ERR}homebrew ==> not installed"
-       HOMEBREW_NO_ENV_HINTS=1 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && echo -e "${I_DONE}installed ==> homebrew"; }
+  [ -d "/opt/homebrew" ] && echo -e "${I_OK}homebrew ==> already installed" || {
+    echo -e "${I_ERR}homebrew ==> not installed"
+    HOMEBREW_NO_ENV_HINTS=1 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && echo -e "${I_DONE}installed ==> homebrew"
+  }
   # ensure homebrew is in path
-  command -v brew &> /dev/null && echo -e "${I_OK}is in PATH ==> homebrew" || { echo -e "${I_WAR}not in PATH ==> homebrew"
-       echo -e "${I_INFO}the script can still run, because its temporary initializing homebrew. TEMPORARY!"
-       echo -e "${I_INFO}check out the homebrew installation guide to see how to permanently add brew to your PATH (https://docs.brew.sh/Installation)"
-       echo -e "${I_INFO}${C_GREEN}SPOILER${C_RESET} ==> you need to add the following line to your shell config file (~/.zprofile for zsh, ~/.bash_profile for bash)"
-       echo -ne "${I_INFO}${C_GREEN}" && echo -ne 'eval "$(/opt/homebrew/bin/brew shellenv)"' && echo -e "${C_RESET} \n"; }
+  command -v brew &>/dev/null && echo -e "${I_OK}is in PATH ==> homebrew" || {
+    echo -e "${I_WAR}not in PATH ==> homebrew"
+    echo -e "${I_INFO}the script can still run, because its temporary initializing homebrew. TEMPORARY!"
+    echo -e "${I_INFO}check out the homebrew installation guide to see how to permanently add brew to your PATH (https://docs.brew.sh/Installation)"
+    echo -e "${I_INFO}${C_GREEN}SPOILER${C_RESET} ==> you need to add the following line to your shell config file (~/.zprofile for zsh, ~/.bash_profile for bash)"
+    echo -ne "${I_INFO}${C_GREEN}" && echo -ne 'eval "$(/opt/homebrew/bin/brew shellenv)"' && echo -e "${C_RESET} \n"
+  }
   # initialize & update homebrew (only for the script)
   eval "$(/opt/homebrew/bin/brew shellenv)" && brew update --force --quiet
 
   # ensure grep is installed (gnu version)
-  command -v ggrep &> /dev/null && echo -e "${I_OK}already installed ==> grep (gnu version)" || (brew install --quiet grep && echo -e "${I_DONE}installed ==> grep (gnu version)")
+  command -v ggrep &>/dev/null && echo -e "${I_OK}already installed ==> grep (gnu version)" || (brew install --quiet grep && echo -e "${I_DONE}installed ==> grep (gnu version)")
   # ensure zsh is installed (brew version)
-  command -v zsh &> /dev/null && echo -e "${I_OK}already installed ==> zsh" || (brew install --quiet zsh && echo -e "${I_DONE}installed ==> zsh")
+  command -v zsh &>/dev/null && echo -e "${I_OK}already installed ==> zsh" || (brew install --quiet zsh && echo -e "${I_DONE}installed ==> zsh")
   [ -n "$(brew ls --formulae | ggrep "^zsh$")" ] && echo -e "${I_OK}already installed ==> zsh (brew version)" || (brew install --quiet zsh && echo -e "${I_DONE}installed ==> zsh (brew version)")
   # ensure bash is installed (brew version)
-  command -v bash &> /dev/null && echo -e "${I_OK}already installed ==> bash" || (brew install --quiet bash && echo -e "${I_DONE}installed ==> bash")
+  command -v bash &>/dev/null && echo -e "${I_OK}already installed ==> bash" || (brew install --quiet bash && echo -e "${I_DONE}installed ==> bash")
   [ -n "$(brew ls --formulae | ggrep "^bash$")" ] && echo -e "${I_OK}already installed ==> bash (brew version)" || (brew install --quiet bash && echo -e "${I_DONE}installed ==> bash (brew version)")
   # ensure git is installed
-  command -v git &> /dev/null && echo -e "${I_OK}already installed ==> git" || (brew install --quiet git && echo -e "${I_DONE}installed ==> git (brew version)")
+  command -v git &>/dev/null && echo -e "${I_OK}already installed ==> git" || (brew install --quiet git && echo -e "${I_DONE}installed ==> git (brew version)")
   # ensure gnu chmod & chown (coreutils) is installed
   [ -d "/opt/homebrew/opt/coreutils" ] && echo -e "${I_OK}already installed ==> gnu coreutils" || (brew install --quiet coreutils && echo -e "${I_DONE}gnu coreutils")
   # ensure github cli is installed
-  command -v gh &> /dev/null && echo -e "${I_OK}already installed ==> github cli" || (brew install --quiet gh && echo -e "${I_DONE}installed ==> github cli")
+  command -v gh &>/dev/null && echo -e "${I_OK}already installed ==> github cli" || (brew install --quiet gh && echo -e "${I_DONE}installed ==> github cli")
   # ensure ansible is installed
-  command -v ansible &> /dev/null && echo -e "${I_OK}already installed ==> ansible" || (brew install --quiet ansible && echo -e "${I_DONE}installed ==> ansible")
+  command -v ansible &>/dev/null && echo -e "${I_OK}already installed ==> ansible" || (brew install --quiet ansible && echo -e "${I_DONE}installed ==> ansible")
 }
 
 # -- PREPARE INSTALLATION -- #
@@ -121,7 +128,7 @@ function pre_install() {
   else
     sudo touch "$ONEVAULT/onesetup.secret"
     echo -e "${I_DONE}$ONEVAULT/onesetup.secret ==> file created"
-    # prompt user for vault password 
+    # prompt user for vault password
     echo -e "${I_ASK}Enter your ansible vault password: "
     read -s vault_password
     echo -e "${I_ASK}Confirm password: "
@@ -132,7 +139,7 @@ function pre_install() {
       break
     fi
     # write vault password into secret file
-    echo "$vault_password" | sudo tee "$ONEVAULT/onesetup.secret" > /dev/null
+    echo "$vault_password" | sudo tee "$ONEVAULT/onesetup.secret" >/dev/null
     sudo chown "$USER" "$ONEVAULT/onesetup.secret"
     sudo chmod 600 "$ONEVAULT/onesetup.secret"
     echo -e "${I_DONE}vault password stored in $ONEVAULT/onesetup.secret"
@@ -170,10 +177,10 @@ function install() {
   sudo gchmod 644 "${ONESETUP}/.yamllint"
   sudo gchmod 644 "${ONESETUP}/LICENSE"
   sudo gchmod 644 "${ONESETUP}/README.md"
-  find "$ONESETUP/group_vars" -type f -name "*.yml" -exec sudo gchmod 644 {} \; && \
-  find "$ONESETUP/pre_tasks" -type f -name "*.yml" -exec sudo gchmod 644 {} \; && \
-  find "$ONESETUP/roles" -type f -name "*.yml" -exec sudo gchmod 644 {} \; && \
-  echo -e "${I_DONE}onesetup ==> permissions set" || { echo -e "${I_ERR}onesetup ==> failed to set permissions" && exit 1; }
+  find "$ONESETUP/group_vars" -type f -name "*.yml" -exec sudo gchmod 644 {} \; &&
+    find "$ONESETUP/pre_tasks" -type f -name "*.yml" -exec sudo gchmod 644 {} \; &&
+    find "$ONESETUP/roles" -type f -name "*.yml" -exec sudo gchmod 644 {} \; &&
+    echo -e "${I_DONE}onesetup ==> permissions set" || { echo -e "${I_ERR}onesetup ==> failed to set permissions" && exit 1; }
 
   # -- ONESETUP BINARY -- #
   # remove onesetup binary if exists
@@ -185,6 +192,5 @@ function install() {
   # copy onesetup binary to /usr/local/bin
   sudo cp "${ONESETUP}/bin/onesetup" "/usr/local/bin/onesetup" && sudo gchown "$USER" "/usr/local/bin/onesetup" && sudo gchmod 755 "/usr/local/bin/onesetup" && echo -e "${I_DONE}onesetup ==> binary installed" || { echo -e "${I_ERR}onesetup ==> failed to install binary" && exit 1; }
 }
-
 
 dependencies && pre_install && install
